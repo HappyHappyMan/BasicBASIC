@@ -36,8 +36,8 @@ public class Dictionary {
       byte byte1 = (byte) letter1;
       byte byte2 = (byte) letter2;
 
-      byte1 = (byte) (byte1 << 8);
-      int orredBytes = (byte1 | byte2); //why is this an int?
+      byte1 = (byte) (byte1 << 8); 
+      int orredBytes = (byte1 | byte2); 
       total = total + orredBytes;
     }
 
