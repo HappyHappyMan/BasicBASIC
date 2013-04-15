@@ -24,6 +24,7 @@ public class Dictionary {
 
     if (s.length() % 2 == 0) {
       j = s.length();
+
     } else {
       j = s.length() - 1;
     }
@@ -44,8 +45,9 @@ public class Dictionary {
     return total;
   }
 
-  public Double get(int key) {
-    int hash = (key % data.length);
+  public Double get(String s) {
+    int hash = hash(s);
+    int key = hash % data.length;
 
     while (data[hash] != null && data[hash].key != key) {
       hash = (hash + 1) % data.length;
