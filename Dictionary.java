@@ -16,22 +16,21 @@ public class Dictionary {
 
   public void put(String s, Double d) {
 
-    int hash = hash(s);
-    int key = hash % data.length;
+    int key = hash(s);
 
-    if (data[key].equals(null)) {
-      data[key] = new HashVar(hash, d);
+    if (data[key] == null) {
+      data[key] = new HashVar(s, d);
     } else {
       HashVar hashElement = data[key];
-      while (hashElement.link != null && hashElement.hash != hash) {
+      while (hashElement.link != null && !(hashElement.data.equals(s))) {
         hashElement = hashElement.link;
       }
-      if (hashElement.hash == hash) { //it should compare ints properly.
+      if (hashElement.data.equals(s)) {
         HashVar temp = hashElement.link;
-        hashElement = new HashVar(hash, d);
+        hashElement = new HashVar(s, d);
         hashElement.link = temp;
       } else {
-        hashElement.link = new HashVar(hash, d);
+        hashElement.link = new HashVar(s, d);
       }
     }
   }
@@ -40,7 +39,12 @@ public class Dictionary {
     int j = 0;
     int total = 0;
 
-    if (s.length() % 2 == 0) {
+    if (s.length() == 1) {
+      char letter = s.charAt(0);
+      int num = (int) letter;
+      num -= 8;
+      return num % data.length;
+    } else if (s.length() % 2 == 0) {
       j = s.length();
     } else {
       j = s.length() - 1;
@@ -59,20 +63,20 @@ public class Dictionary {
     }
 
     total--;
-    return total;
+    return total % data.length;
   }
 
   public Double get(String s) {
-    int hash = hash(s);
-    int key = hash % data.length;
+    int key = hash(s);
+    HashVar temp = data[key];
 
-    while (data[key] != null && data[key].hash != hash) {
-      hash = (hash + 1) % data.length;
+    while (temp != null && !(temp.data.equals(s))) {
+      temp = temp.link;
     }
-    if (data[hash] == null) {
-      return -1.0;
+    if (temp == null) {
+      throw new HashException("Key doesn't exist in database, something's wrong.");
     } else {
-      return data[hash].value;
+      return temp.value;
     }
   }
 }
@@ -80,12 +84,12 @@ public class Dictionary {
 class HashVar {
 
   Double value;
-  int hash;
+  String data;
   HashVar link;
 
-  public HashVar(int hash, Double value) {
+  public HashVar(String data, Double value) {
     this.value= value;
-    this.hash = hash;
+    this.data = data;
     link = null;
   }
 }
