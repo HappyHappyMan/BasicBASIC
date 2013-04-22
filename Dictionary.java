@@ -9,7 +9,7 @@ public class Dictionary {
     data = new HashVar[103];
 
     for (int i = 0; i < data.length; i++) {
-      data[i] = null;
+      data[i] = new HashVar("0", 0.0);
     }
 
   }
@@ -19,19 +19,28 @@ public class Dictionary {
     int key = hash(s);
 
     if (data[key] == null) {
+      System.out.println("nothing in this bin");
       data[key] = new HashVar(s, d);
+      return;
     } else {
+      System.out.println("Already stuff in this bin");
       HashVar hashElement = data[key];
-      while (hashElement.link != null && !(hashElement.data.equals(s))) {
+
+      while (hashElement.link != null ) {
+
+        if (hashElement.link.data.equals(s)) {
+          System.out.println("Found duplicate");
+          HashVar temp = new HashVar(s,d);
+          temp.link = hashElement.link.link;
+          hashElement.link = temp;
+          return;
+        }  
         hashElement = hashElement.link;
+
       }
-      if (hashElement.data.equals(s)) {
-        HashVar temp = hashElement.link;
-        hashElement = new HashVar(s, d);
-        hashElement.link = temp;
-      } else {
-        hashElement.link = new HashVar(s, d);
-      }
+      System.out.println("No dupes, gonna make a new one");
+      hashElement.link = new HashVar(s, d);
+      return;
     }
   }
 
