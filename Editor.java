@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Editor {
 
   //TODO: main loop
+  //TODO: Implement RUN! Can't believe you forgot to do this...
     public static void main(String[] args) {
     LinkedList lines = new LinkedList();
     Scanner in = new Scanner(System.in);
@@ -23,12 +24,15 @@ public class Editor {
         System.out.println(lines);
       } else if (keyword.equals("ACCEPT")) {
           String var = input.split(" ")[1];
-          System.out.print(var + "= ");
+          System.out.print(var + " = ");
           String num = in.nextLine();
           vars.put(var, Double.parseDouble(num));
       } else if (keyword.equals("PRINT")) {
           String var = input.split(" ")[1];
           System.out.println(var + " = " + vars.get(var));
+      } else if (keyword.equals("RUN")) {
+          //TODO: make it do things
+
       } else {
         //System.out.println("default case");
         String[] tokens = input.split(" ", 2);
@@ -37,11 +41,11 @@ public class Editor {
           lines.insert(input);                  //to insert a line
         } catch (NumberFormatException e) {
           //TODO: need to implement direct interfacing. For now, an error msg.
+          //Eventually, this will just take in lines and interpret them straight-up,
+          //but this depends on the InfixConverter which isn't quite done yet.
           System.out.println("Invalid input.");
         }
       }
     }
-
-
   }
 }
