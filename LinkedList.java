@@ -1,4 +1,5 @@
 package Final;
+import java.util.Iterator;
 
 /**
  * A LinkedList class meant to be used to store lines of BASIC code.
@@ -6,7 +7,7 @@ package Final;
  * Version: 0.01
  */
 
-public class LinkedList {
+public class LinkedList implements Iterable<ListElement> {
   ListElement head;
   ListElement tail;
   
@@ -29,6 +30,10 @@ public class LinkedList {
       this.tail = temp;
   }
 
+  public LLIterator iterator() {
+    return new LLIterator(head);
+  }
+
   /**
    * Inserts a data item after the specified list element
    * @param where The list element after which the data is inserted
@@ -46,6 +51,10 @@ public class LinkedList {
       where.link = newLE;
       newLE.link = temp;
     }
+  }
+
+  public ListElement getHead() {
+    return this.head;
   }
 
   /**
@@ -150,6 +159,36 @@ public class LinkedList {
     }
   }
 }
+
+class LLIterator implements Iterator<ListElement> {
+
+  private ListElement le;
+
+  public LLIterator(ListElement head) {
+    le = head;
+  }
+
+  public LLIterator(LinkedList l) {
+    this(l.getHead());
+  }
+
+  public boolean hasNext() {
+    if (le.link == null) {
+      return false;
+    }
+    return true;
+  }
+
+  public ListElement next() {
+    le = le.link;
+    return le.link;
+  }
+
+  public void remove() {
+
+  }
+}
+
 
 //TODO: catch exceptions from Integer.parseInt
 class ListElement {
