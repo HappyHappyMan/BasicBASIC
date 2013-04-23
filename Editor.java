@@ -49,8 +49,10 @@ public class Editor {
             String[] letTokens = tokens[1].split("=");
             System.out.println(java.util.Arrays.toString(letTokens));
             try {
+              System.out.println(letTokens[1].replaceAll("\\s", ""));
               Double num = Double.parseDouble(letTokens[1].replaceAll("\\s", ""));
-              vars.put(letTokens[0], num);
+              System.out.println(num);
+              vars.put(letTokens[0].replaceAll("\\s", ""), num);
             } catch (NumberFormatException e1) {
               System.out.println("Invalid input, try again.");
             }    
