@@ -2,21 +2,21 @@ package Final;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class InfixConverter {
 
-  ArrayDeque<String> tokenQueue;
+  ArrayDeque<String> tokenStack;
   ArrayDeque<String> doubleQueue;
   String line;
   String[] operators = {"+", "-", "*", "/"};
-  String[] tokens;
   Dictionary hash;
+  StringTokenizer tokenizer;
 
   public InfixConverter(String input, Dictionary hashtable) {
     System.out.println("input is " + input);
-    tokens = input.split("[\\p{Punct} \\t\\n\\r]");
-    System.out.println(tokens[0]);
-    tokenQueue = new ArrayDeque<String>(tokens.length);
+    tokenizer = new StringTokenizer(input, " +-*/()", true);
+    tokenStack = new ArrayDeque<String>();
     doubleQueue = new ArrayDeque<String>();
     hash = hashtable;
 
@@ -25,19 +25,20 @@ public class InfixConverter {
 public void convertExprToPostfix() {
     String eval;
     ArrayDeque<String> tempQueue = new ArrayDeque<String>();
-    ArrayDeque<String> tokenStack = new ArrayDeque<String>();
+    //ArrayDeque<String> tokenStack = new ArrayDeque<String>();
 
-    for (int i = 0; i < tokens.length; i++) {
-      tempQueue.addLast(tokens[i]);
+    while (tokenizer.hasMoreTokens()) {
+      tempQueue.addLast(tokenizer.nextToken());
     }
 
     while (!tempQueue.isEmpty()) {
       eval = tempQueue.removeFirst();
+      System.out.println("eval is " + eval);
 
       if (eval.equals("(")) {                                                        // if token is a ({
         tokenStack.push(eval);
       } else if (Arrays.asList(operators).contains(eval)) {                            // if the token is an operator
-        
+        System.out.println("We have found an operator."); 
         if (tokenStack.isEmpty() || compareOperators(eval, tokenStack.peek()) > 0) { // if stack is empty, or the if the priority of the stack has a lower priority than that of the token
           tokenStack.push(eval);
         } else {
@@ -49,6 +50,7 @@ public void convertExprToPostfix() {
               if (compareOperators(eval, tokenStack.peek()) > 0)
                 break;
               doubleQueue.add(tokenStack.pop());
+              System.out.println("tokenStack is " + tokenStack);
             } while(true);
 
           tokenStack.push(eval);
@@ -103,12 +105,12 @@ public void convertExprToPostfix() {
   private Double evalPostFix() {
     ArrayDeque<Double> numbers = new ArrayDeque<Double>();
     Double num1, num2;
-    String[] input = null;
+    Object[] input = null;
 
-    input = doubleQueue.toArray(input);
+    input = doubleQueue.toArray();
 
     for (int i = 0; i < input.length; i++) {
-      String eval = input[i];
+      Object eval = input[i];
 
       if (Arrays.asList(operators).contains(eval)) {
         num2 = numbers.pop();
@@ -123,8 +125,8 @@ public void convertExprToPostfix() {
         } else if (eval.equals("/")) {
           numbers.push(num1 / num2);
         }
-      } else if (isStringNumeric(eval)) {
-        numbers.push(Double.parseDouble(eval));
+      } else if (isStringNumeric((String) eval)) {
+        numbers.push(Double.parseDouble((String) eval));
       }
     }
 
