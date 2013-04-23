@@ -45,13 +45,10 @@ public class LinkedList implements Iterable<ListElement> {
    * @param newLE the new list element containing the new data
    */
   private void insertAfter(ListElement where, ListElement newLE) {
-    if(where.link == null)
-    {
+    if(where.link == null) {
       where.link = newLE;
       tail = where.link;
-    }
-    else
-    {
+    } else {
       ListElement temp = where.link;
       where.link = newLE;
       newLE.link = temp;
@@ -118,8 +115,7 @@ public class LinkedList implements Iterable<ListElement> {
    * Checks to see whether the list is empty
    * @return returns true if the list is empty, false otherwise
    */
-  public boolean isEmpty()
-  {
+  public boolean isEmpty() {
     return this.head.link == null;
   }
 
@@ -127,13 +123,11 @@ public class LinkedList implements Iterable<ListElement> {
    * Deletes the data item at the beginning of the list
    * @return Returns the deleted String.
    */
-  public String deleteHead()
-  {
+  public String deleteHead() {
     String retval = null;
     if (this.isEmpty())
       throw new LLException("Attempt to delete from empty list.");
-    else
-    {
+    else {
       retval = this.head.link.data;
       this.head.link = this.head.link.link;
     }
@@ -144,8 +138,7 @@ public class LinkedList implements Iterable<ListElement> {
    * Prints out the elements of the linked list in order.
    * @return A String of all the data elements.
    */
-  public String toString()
-  {
+  public String toString() {
     String retval = "";
     retval += recprint(head.link, retval);
     return retval;
@@ -154,12 +147,10 @@ public class LinkedList implements Iterable<ListElement> {
   /**
    * Implements toString().
    */
-  private String recprint(ListElement where, String s)
-  {
+  private String recprint(ListElement where, String s) {
     if (where == null)
       return s;
-    else
-    {
+    else {
       return s + "\n" + recprint(where.link, where.num + " " + where.data.toString());
     }
   }

@@ -43,7 +43,6 @@ public class Dictionary {
           return;
         }  
         hashElement = hashElement.link;
-
       }
       hashElement.link = new HashVar(s, d);
       return;
