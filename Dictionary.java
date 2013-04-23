@@ -1,5 +1,9 @@
 package Final;
 
+/**
+ * A very VERY basic hashtable.
+ */
+
 public class Dictionary {
 
   private HashVar[] data;
@@ -14,22 +18,25 @@ public class Dictionary {
 
   }
 
+  /**
+   * Inserts key-value pair into hashtable.
+   * @param s variable name
+   * @param d Double associated with variable.
+   */
+
   public void put(String s, Double d) {
 
     int key = hash(s);
 
     if (data[key] == null) {
-      System.out.println("nothing in this bin");
       data[key] = new HashVar(s, d);
       return;
+
     } else {
-      System.out.println("Already stuff in this bin");
       HashVar hashElement = data[key];
 
       while (hashElement.link != null ) {
-
         if (hashElement.link.data.equals(s)) {
-          System.out.println("Found duplicate");
           HashVar temp = new HashVar(s,d);
           temp.link = hashElement.link.link;
           hashElement.link = temp;
@@ -38,11 +45,16 @@ public class Dictionary {
         hashElement = hashElement.link;
 
       }
-      System.out.println("No dupes, gonna make a new one");
       hashElement.link = new HashVar(s, d);
       return;
     }
   }
+
+  /**
+   * hashes String to array index.
+   * @param  s String to hash.
+   * @return   array index.
+   */
 
   private int hash(String s) {
     int j = 0;
@@ -53,8 +65,10 @@ public class Dictionary {
       int num = (int) letter;
       num -= 8;
       return num % data.length;
+
     } else if (s.length() % 2 == 0) {
       j = s.length();
+
     } else {
       j = s.length() - 1;
     }
@@ -75,6 +89,12 @@ public class Dictionary {
     return total % data.length;
   }
 
+  /**
+   * Returns value associated with String in hashtable
+   * @param  s variable to look up
+   * @return   value of variable.
+   */
+
   public Double get(String s) {
     int key = hash(s);
     HashVar temp = data[key];
@@ -82,6 +102,7 @@ public class Dictionary {
     while (temp != null && !(temp.data.equals(s))) {
       temp = temp.link;
     }
+
     if (temp == null) {
       throw new HashException("Key doesn't exist in database, something's wrong.");
     } else {
@@ -89,6 +110,11 @@ public class Dictionary {
     }
   }
 }
+
+/**
+ * Small helper class that implements an extremely rudimentary chain 
+ * of key-value pairs.
+ */
 
 class HashVar {
 

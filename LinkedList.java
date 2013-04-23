@@ -30,6 +30,11 @@ public class LinkedList implements Iterable<ListElement> {
       this.tail = temp;
   }
 
+  /**
+   * Makes an iterator.
+   * @return An LLIterator that iterates through list elements.
+   */
+
   public LLIterator iterator() {
     return new LLIterator(head);
   }
@@ -159,6 +164,10 @@ public class LinkedList implements Iterable<ListElement> {
     }
   }
 }
+
+/**
+ * an iterator that iterates. Used for iterating.
+ */
 
 class LLIterator implements Iterator<ListElement> {
 
