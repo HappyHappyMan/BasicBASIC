@@ -6,6 +6,11 @@ public class Editor {
 
   //TODO: main loop
   //TODO: Implement RUN! Can't believe you forgot to do this...
+  //      As far as implementing RUN goes, have a private method
+  //      in here that handles the logic around IFs and LETs and
+  //      whatever else. This means that this Class is the one that handles
+  //      passing stuff to InfixConverter, which merely returns a double 
+  //      representing the output of the line. I think that's all we need.
     public static void main(String[] args) {
     LinkedList lines = new LinkedList();
     Scanner in = new Scanner(System.in);
@@ -40,10 +45,19 @@ public class Editor {
           Integer.parseInt(tokens[0]);
           lines.insert(input);                  //to insert a line
         } catch (NumberFormatException e) {
-          //TODO: need to implement direct interfacing. For now, an error msg.
-          //Eventually, this will just take in lines and interpret them straight-up,
-          //but this depends on the InfixConverter which isn't quite done yet.
-          System.out.println("Invalid input.");
+          if (tokens[0].equals("LET")) {
+            String[] letTokens = tokens[1].split("=");
+            System.out.println(java.util.Arrays.toString(letTokens));
+            try {
+              Double num = Double.parseDouble(letTokens[1].replaceAll("\\s", ""));
+              vars.put(letTokens[0], num);
+            } catch (NumberFormatException e1) {
+              System.out.println("Invalid input, try again.");
+            }    
+          } else {
+            InfixConverter converter = new InfixConverter(input, vars);
+            System.out.println(converter.convert());
+          }
         }
       }
     }
