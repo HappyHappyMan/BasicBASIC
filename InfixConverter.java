@@ -13,9 +13,11 @@ public class InfixConverter {
   Dictionary hash;
 
   public InfixConverter(String input, Dictionary hashtable) {
-
-    tokens = input.split(" +-*/()");
+    System.out.println("input is " + input);
+    tokens = input.split("[\\p{Punct} \\t\\n\\r]");
+    System.out.println(tokens[0]);
     tokenQueue = new ArrayDeque<String>(tokens.length);
+    doubleQueue = new ArrayDeque<String>();
     hash = hashtable;
 
   }
@@ -31,29 +33,28 @@ public void convertExprToPostfix() {
 
     while (!tempQueue.isEmpty()) {
       eval = tempQueue.removeFirst();
+
       if (eval.equals("(")) {                                                        // if token is a ({
         tokenStack.push(eval);
-      } 
-
-      else if (Arrays.asList(operators).contains(eval)) {                            // if the token is an operator
+      } else if (Arrays.asList(operators).contains(eval)) {                            // if the token is an operator
+        
         if (tokenStack.isEmpty() || compareOperators(eval, tokenStack.peek()) > 0) { // if stack is empty, or the if the priority of the stack has a lower priority than that of the token
           tokenStack.push(eval);
-        }
-        else {
-          do {
-            if (tokenStack.isEmpty())
-              break;
-            if (tokenStack.peek().equals("("))
-              break;
-            if (compareOperators(eval, tokenStack.peek()) > 0)
-              break;
-            doubleQueue.add(tokenStack.pop());
-          } while(true);
+        } else {
+            do {
+              if (tokenStack.isEmpty())
+                break;
+              if (tokenStack.peek().equals("("))
+                break;
+              if (compareOperators(eval, tokenStack.peek()) > 0)
+                break;
+              doubleQueue.add(tokenStack.pop());
+            } while(true);
 
           tokenStack.push(eval);
         }
-      }
-      else if (isStringNumeric(eval)) {                                              // if it is a constant, enqueue{
+      } else if (isStringNumeric(eval)) {                                              // if it is a constant, enqueue{
+        System.out.println(eval);
         doubleQueue.add(eval);  
       } else {
         doubleQueue.add(Double.toString(hash.get(eval)));                            //Ten bucks this doesn't work
