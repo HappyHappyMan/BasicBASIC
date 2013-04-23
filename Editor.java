@@ -33,8 +33,9 @@ public class Editor {
           String num = in.nextLine();
           vars.put(var, Double.parseDouble(num));
       } else if (keyword.equals("PRINT")) {
-          String var = input.split(" ")[1];
-          System.out.println(var + " = " + vars.get(var));
+          String var = input.split(" ", 2)[1];
+          InfixConverter con_1 = new InfixConverter(var, vars);
+          System.out.println(var + " = " + con_1.convert());
       } else if (keyword.equals("RUN")) {
           //TODO: make it do things
 
@@ -47,11 +48,8 @@ public class Editor {
         } catch (NumberFormatException e) {
           if (tokens[0].equals("LET")) {
             String[] letTokens = tokens[1].split("=");
-            System.out.println(java.util.Arrays.toString(letTokens));
             try {
-              System.out.println(letTokens[1].replaceAll("\\s", ""));
               Double num = Double.parseDouble(letTokens[1].replaceAll("\\s", ""));
-              System.out.println(num);
               vars.put(letTokens[0].replaceAll("\\s", ""), num);
             } catch (NumberFormatException e1) {
               System.out.println("Invalid input, try again.");

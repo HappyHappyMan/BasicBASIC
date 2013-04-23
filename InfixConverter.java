@@ -14,7 +14,7 @@ public class InfixConverter {
   StringTokenizer tokenizer;
 
   public InfixConverter(String input, Dictionary hashtable) {
-    System.out.println("input is " + input);
+    //System.out.println("input is " + input);
     tokenizer = new StringTokenizer(input, " +-*/()", true);
     tokenStack = new ArrayDeque<String>();
     doubleQueue = new ArrayDeque<String>();
@@ -33,12 +33,14 @@ public void convertExprToPostfix() {
 
     while (!tempQueue.isEmpty()) {
       eval = tempQueue.removeFirst();
-      System.out.println("eval is " + eval);
+      //System.out.println("eval is " + eval);
+      if (eval.equals(" "))
+        continue;
 
       if (eval.equals("(")) {                                                        // if token is a ({
         tokenStack.push(eval);
       } else if (Arrays.asList(operators).contains(eval)) {                            // if the token is an operator
-        System.out.println("We have found an operator."); 
+        //System.out.println("We have found an operator."); 
         if (tokenStack.isEmpty() || compareOperators(eval, tokenStack.peek()) > 0) { // if stack is empty, or the if the priority of the stack has a lower priority than that of the token
           tokenStack.push(eval);
         } else {
@@ -50,15 +52,16 @@ public void convertExprToPostfix() {
               if (compareOperators(eval, tokenStack.peek()) > 0)
                 break;
               doubleQueue.add(tokenStack.pop());
-              System.out.println("tokenStack is " + tokenStack);
+              //System.out.println("tokenStack is " + tokenStack);
             } while(true);
 
           tokenStack.push(eval);
         }
       } else if (isStringNumeric(eval)) {                                              // if it is a constant, enqueue{
-        System.out.println(eval);
+        //System.out.println(eval);
         doubleQueue.add(eval);  
       } else {
+        //System.out.println("we have variable!");
         doubleQueue.add(Double.toString(hash.get(eval)));                            //Ten bucks this doesn't work
       }
 
@@ -70,15 +73,15 @@ public void convertExprToPostfix() {
           tokenStack.pop(); 
         }
       }
-      System.out.println("queue holds " + doubleQueue);
-      System.out.println("stack holds " + tokenStack);
+      //System.out.println("queue holds " + doubleQueue);
+      //System.out.println("stack holds " + tokenStack);
     }
 
     while (!tokenStack.isEmpty()) {
       doubleQueue.add(tokenStack.pop());
     }
 
-    System.out.println(doubleQueue);
+    //System.out.println(doubleQueue);
   }
 
   private boolean isStringNumeric(String eval) {
