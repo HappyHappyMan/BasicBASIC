@@ -187,6 +187,10 @@ class LLIterator implements Iterator<ListElement> {
   public void remove() {
 
   }
+
+  public ListElement peek() {
+    return le.link;
+  }
 }
 
 
