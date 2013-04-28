@@ -41,6 +41,7 @@ or just directly at the prompt:
  	65 GOTO 55
 
  This command should output
+ 
  	x = 4.0
  	y = 3.0
  	x = 4.0
@@ -51,6 +52,6 @@ or just directly at the prompt:
  	y = 3.0
  	y = 3.0
 
- 
+
 
 
