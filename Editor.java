@@ -35,6 +35,8 @@ public class Editor {
         vars.put(var, Double.parseDouble(num));
     } else if (keyword.equals("PRINT")) {
         print(input);
+    } else if (keyword.equals("IF")) {
+      ifloop(input.replaceAll("IF ", ""));
     } else if (keyword.equals("RUN")) {
         LLIterator iterator = lines.iterator();
         while (iterator.hasNext()) {
@@ -50,11 +52,10 @@ public class Editor {
           } else if (command.equals("FOR")) {
             forloop(data[1], iterator);
           } else if (command.equals("GOTO")) {
-            //TODO
             LLIterator iter2 = lines.iterator();
             ListElement next = null;
             while (iter2.hasNext()) {
-              next = iterator.next();
+              next = iter2.next();
               if (next.num == Integer.parseInt(data[1])) {
                 break;
               }
@@ -86,9 +87,15 @@ public class Editor {
    * @param  input Variable to print.
    */
   private static void print(String input) {
-    String var = input.split(" ", 2)[1];
-    InfixConverter con_1 = new InfixConverter(var, vars);
-    System.out.println(var + " = " + con_1.convert());
+    String vari;
+    String[] var = input.split(" ", 2);
+    if (var.length > 1) {
+      vari = var[1];
+    } else {
+      vari = input;
+    }
+    InfixConverter con_1 = new InfixConverter(vari, vars);
+    System.out.println(vari + " = " + con_1.convert());     
   }
 
   /**
@@ -112,10 +119,10 @@ public class Editor {
    * @param  input String after the keyword IF.
    */
   private static void ifloop(String input) {
-    String[] s = input.split(") ");
-    String lhs = s[0].replaceAll("(", "");
+    String[] s = input.split("\\) ");
+    String lhs = s[0].replaceAll("\\(", "");
     String rhs = s[1];
-
+    
     InfixConverter lhsConverter = new InfixConverter(lhs, vars);
 
     if (lhsConverter.convert() >= 0.0) {
@@ -136,15 +143,15 @@ public class Editor {
 
     String[] expr1 = s[0].replaceAll(" ", "").split("=");
     String expr2 = s[1].replaceAll(" ", "");
-    
     String var = expr1[0];
+    
     InfixConverter expr1Converter = new InfixConverter(expr1[1], vars);
     Double varNum = expr1Converter.convert();
     vars.put(var, varNum);
     InfixConverter expr2Converter = new InfixConverter(expr2, vars);
     Double condition = expr2Converter.convert();
 
-    while (iterator.hasNext() && iterator.peek().data.split(" ")[0].toUpperCase() != "NEXT") {
+    while (iterator.hasNext() && !iterator.peek().data.split(" ")[0].toUpperCase().equals("NEXT")) {
       listy.add(iterator.next());
     }
 

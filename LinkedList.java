@@ -36,7 +36,7 @@ public class LinkedList implements Iterable<ListElement> {
    */
 
   public LLIterator iterator() {
-    return new LLIterator(head);
+    return new LLIterator(getHead());
   }
 
   /**
@@ -181,7 +181,7 @@ class LLIterator implements Iterator<ListElement> {
 
   public ListElement next() {
     le = le.link;
-    return le.link;
+    return le;
   }
 
   public void remove() {
