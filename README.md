@@ -11,6 +11,7 @@ full programs of the type:
 	30 IF (x) PRINT z
 
 or just directly at the prompt:
+
 	> PRINT x
  
  and it will work. 
@@ -41,7 +42,7 @@ or just directly at the prompt:
  	65 GOTO 55
 
  This command should output
- 
+
  	x = 4.0
  	y = 3.0
  	x = 4.0
